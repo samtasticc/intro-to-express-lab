@@ -61,10 +61,9 @@ app.get('/shoes', (req, res) => {
     ]
     const minPrice = req.query.minprice 
     const maxPrice = req.query.maxprice
-    // const type = req.query.shoes.type
-    // const noParams = req.query.shoes
-    // const filter = req.query.filter
-    // console.log(filter)
+    const type = req.query.type
+
+    // min-price: Excludes shoes below this price.
     if (minPrice) {
         // whatever filter logic to exclude all shoes below this price
         const filtered = shoes.filter((shoe) => {
@@ -74,6 +73,7 @@ app.get('/shoes', (req, res) => {
         return;
     }
 
+    // max-price: Excludes shoes above this price.
     if (maxPrice) {
         const filtered = shoes.filter((shoe) => {
             return shoe.price <= maxPrice
@@ -81,13 +81,18 @@ app.get('/shoes', (req, res) => {
         res.send(filtered)
         return;
     }
+    // type: Shows only shoes of the specified type.
+    if (type) {
+        const filtered = shoes.filter((shoe) => {
+            return shoe.type === type
+        })
+        res.send(filtered)
+        return;
+    }
+
+    // No parameters: Responds with the full list of shoes.
     res.send(shoes)
     
-// min-price: Excludes shoes below this price.
-// max-price: Excludes shoes above this price.
-// type: Shows only shoes of the specified type.
-// No parameters: Responds with the full list of shoes.
-
 })
 // you need this for the local host to work!! it has to be on the bottom.
 app.listen(3000, () => {
