@@ -9,8 +9,9 @@ app.get('/', (req, res) => {
     // console.log('testing')
 })
 
-app.get('/greetings/Delilah', (req, res) => {
-    res.send('Hey there, Delilah.')
+app.get('/greetings/:name', (req, res) => {
+    const name = req.params.name
+    res.send(`Hey there, ${req.params.name}`)
     console.log('testing')
 })
 
@@ -18,13 +19,15 @@ app.get('/greetings/Delilah', (req, res) => {
 // Task: Set up a route to handle URLs following the pattern /roll/<number-parameter>.
 // the colon ':' allows you to enter items in the browser
 app.get('/roll/:itemNumber', (req, res) => {
-    const itemNumber = req.params.itemNumber
+    const itemNumber = parseInt(req.params.itemNumber, 10)
+    
     // if statement before the response. 
     if (isNaN(itemNumber) || itemNumber <= 0) {
         // handle error
         res.status(400).send(`You must specify a number.`)
     } else {
-        res.send(`You rolled a ${itemNumber}`)
+        const randomNum = Math.floor(Math.random() * itemNumber)
+        res.send(`You rolled a ${randomNum}`)
     }    
 })
 
